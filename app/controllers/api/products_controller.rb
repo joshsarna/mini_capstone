@@ -1,7 +1,7 @@
 class Api::ProductsController < ApplicationController
   def index
     @products = Product.all
-    render "all_products_view.json.jbuilder"
+    render "index.json.jbuilder"
   end
 
   def show
@@ -10,14 +10,30 @@ class Api::ProductsController < ApplicationController
   end
 
   def create
+
+    p "What is the title of the book you would like to add to the store?"
+    input_name = gets.chomp
+    p "What is the author's name?"
+    input_author = gets.chomp
+    p "How much does the book cost?"
+    input_price = gets.chomp.to_d
+    p "What is the description?"
+    input_description = gets.chomp
+    p "What format is the book?"
+    input_format = gets.chomp
+    p "What condition is the book?"
+    input_condition = gets.chomp
+    p "What is the image url?"
+    input_image_url = gets.chomp
+
     @product = Product.new(
-      name: params[:input_name],
-      price: params[:input_price],
-      description: params[:input_description],
-      author: params[:input_author],
-      format: params[:input_format],
-      condition: params[:input_condition],
-      image_url: params[:input_image_url]
+      name: input_name,
+      price: input_price,
+      description: input_description,
+      author: input_author,
+      format: input_format,
+      condition: input_condition,
+      image_url: input_image_url
     )
     @product.save
     render "show.json.jbuilder"
