@@ -1,9 +1,17 @@
 class Product < ApplicationRecord
   def is_discounted?
     if price && price >= 5
-      return false
+      false
     else
-      return true
+      true
+    end
+  end
+
+  def discount_message
+    if is_discounted?
+      "Discount Item!"
+    else
+      "Everyday Value!"
     end
   end
 
