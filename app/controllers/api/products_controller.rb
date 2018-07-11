@@ -2,11 +2,12 @@ class Api::ProductsController < ApplicationController
   def index
     user_input = params[:search]
     search_type = params[:search_type]
+    sort_by = params[:sort_by] || "id"
     if user_input
       if search_type == "title"
-        @products = Product.where('name LIKE ?', "%#{user_input}%")
+        @products = Product.where('name LIKE ?', "%#{user_input}%").order("#{sort_by}")
       elsif search_type == "author"
-        @products = Product.where('author LIKE ?', "%#{user_input}%")
+        @products = Product.where('author LIKE ?', "%#{user_input}%").order("#{sort_by}")
       end
     else
       @products = Product.all
