@@ -4,7 +4,6 @@ json.author product.author
 json.price product.price
 json.format product.format
 json.condition product.condition
-json.image_url product.image_url
 json.description product.description
 
 json.formatted do
@@ -12,4 +11,6 @@ json.formatted do
   json.tax product.tax
   json.total product.total
   json.discount_message product.discount_message
+  json.supplier product.supplier
+  json.image product.images
 end

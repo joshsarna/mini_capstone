@@ -6,5 +6,20 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-product = Product.new(name: "Jurassic Park", price: 6.99, author: "Michael Crichton", format: "paperback", condition: "acceptable")
-product.save
+# supplier = Supplier.new(name: "Harper Collins", email: "hp@books.com", phone_number: "123")
+# supplier.save
+# supplier = Supplier.new(name: "Ballantine Books", email: "bb@books.com", phone_number: "456")
+# supplier.save
+# supplier = Supplier.new(name: "Viking", email: "v@books.com", phone_number: "789")
+# supplier.save
+
+# products = Product.all
+# products.each do |product|
+#   if product.image_url
+#     picture = Picture.new(
+#       url: product.image_url,
+#       product_id: product.id
+#     )
+#     picture.save
+#   end
+# end

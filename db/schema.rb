@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_10_022001) do
+ActiveRecord::Schema.define(version: 2018_07_13_020030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_pictures", force: :cascade do |t|
+    t.string "url"
+    t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pictures", force: :cascade do |t|
+    t.string "url"
+    t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "name"
@@ -25,6 +39,36 @@ ActiveRecord::Schema.define(version: 2018_07_10_022001) do
     t.string "author"
     t.string "format"
     t.string "condition"
+    t.integer "supplier_id"
+  end
+
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "phone_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "temptable", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.string "name"
+    t.decimal "price", precision: 5, scale: 2
+    t.string "image_url"
+    t.text "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "author"
+    t.string "format"
+    t.string "condition"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

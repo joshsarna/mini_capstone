@@ -4,11 +4,7 @@ class Api::ProductsController < ApplicationController
     search_type = params[:search_type]
     sort_by = params[:sort_by] || "id"
     if user_input
-      if search_type == "title"
-        @products = Product.where('name LIKE ?', "%#{user_input}%").order("#{sort_by}")
-      elsif search_type == "author"
-        @products = Product.where('author LIKE ?', "%#{user_input}%").order("#{sort_by}")
-      end
+       @products = Product.where("#{search_type} LIKE ?", "%#{user_input}%").order("#{sort_by}")
     else
       @products = Product.all
     end
@@ -29,9 +25,14 @@ class Api::ProductsController < ApplicationController
       author: params[:input_author],
       format: params[:input_format],
       condition: params[:input_condition],
-      image_url: params[:input_image_url]
+      supplier_id: params[:input_supplier_id]
     )
     @product.save
+    @image = Picture.new(
+      url: params[:input_image_url],
+      product_id: Product.last.id
+    )
+    @image.save
     render "show.json.jbuilder"
   end
 
