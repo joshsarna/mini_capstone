@@ -1,6 +1,11 @@
 class Product < ApplicationRecord
   belongs_to :supplier
   has_many :pictures
+  has_many :genre_products
+  has_many :genres, through: :genre_products
+
+  has_many :carted_products
+  has_many :users, through: :carted_products
 
   def is_discounted?
     if price && price >= 5
@@ -37,5 +42,9 @@ class Product < ApplicationRecord
 
   # def images
   #   Picture.where(product_id: id)
+  # end
+
+  # def genres
+  #   Genre.where(id: genre_products.genre_id)
   # end
 end

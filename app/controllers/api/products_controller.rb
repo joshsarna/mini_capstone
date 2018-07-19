@@ -2,11 +2,17 @@ class Api::ProductsController < ApplicationController
   def index
     user_input = params[:search]
     search_type = params[:search_type]
+    genre = params[:genre]
     sort_by = params[:sort_by] || "id"
-    if user_input
-       @products = Product.where("#{search_type} LIKE ?", "%#{user_input}%").order("#{sort_by}")
+    if params[:genre] != ""
+      genre = Genre.find_by(name: params[:genre])
+      @products = genre.products
     else
-      @products = Product.all
+      if user_input
+        @products = Product.where("#{search_type} LIKE ?", "%#{user_input}%").order("#{sort_by}")
+      else
+        @products = Product.all.order("#{sort_by}")
+      end
     end
     render "index.json.jbuilder"
   end
