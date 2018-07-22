@@ -1,7 +1,5 @@
 json.user @order.user
-json.product @order.product
-json.product_pictures @order.product.pictures
-json.quantity @order.quantity
+json.products = @carted_products
 json.subtotal @order.subtotal
 json.tax @order.tax
 json.total @order.total
