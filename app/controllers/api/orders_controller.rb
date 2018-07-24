@@ -22,7 +22,7 @@ class Api::OrdersController < ApplicationController
     )
     @order.save
     @carted_products.each do |product|
-      product.order_id = Order.last.id
+      product.order_id = @order.id
       product.status = "purchased"
       product.save
     end

@@ -7,6 +7,19 @@ class Product < ApplicationRecord
   has_many :carted_products
   has_many :users, through: :carted_products
 
+  validates :name, presence: true
+  validates :name, uniqueness: true
+  validates :price, presence: true
+  validates :price, numericality: { greater_than: 0, less_than: 9999999.99 }
+  validates :author, presence: true
+  validates :description, length: { maximum: 500 }
+
+
+=begin
+price must be > 0
+price must be below 99999999.99
+=end
+
   def is_discounted?
     if price && price >= 5
       false

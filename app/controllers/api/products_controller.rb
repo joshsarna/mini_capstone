@@ -33,13 +33,16 @@ class Api::ProductsController < ApplicationController
       condition: params[:input_condition],
       supplier_id: params[:input_supplier_id]
     )
-    @product.save
-    @image = Picture.new(
-      url: params[:input_image_url],
-      product_id: Product.last.id
-    )
-    @image.save
-    render "show.json.jbuilder"
+    if @product.save
+      @image = Picture.new(
+        url: params[:input_image_url],
+        product_id: @product.id
+      )
+      @image.save
+      render "show.json.jbuilder"
+    else # sad path
+      render json: {errors: @product.errors.full_messages}, status: :unprocessible_entity 
+    end
   end
 
   def destroy
