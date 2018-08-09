@@ -49,6 +49,10 @@ price must be below 99999999.99
     end
   end
 
+  def first_image
+    product.images.first
+  end
+
   # def supplier
   #   Supplier.find_by(id: supplier_id)
   # end

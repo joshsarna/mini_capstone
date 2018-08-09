@@ -1,3 +1,4 @@
+json.id carted_product.id
 json.user carted_product.user
 json.product carted_product.product
 json.quantity carted_product.quantity

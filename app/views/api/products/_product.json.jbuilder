@@ -12,6 +12,6 @@ json.formatted do
   json.total product.total
   json.discount_message product.discount_message
   json.supplier product.supplier
-  json.image product.pictures
+  json.images product.pictures
   json.genres product.genres
 end

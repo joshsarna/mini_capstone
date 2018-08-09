@@ -1,19 +1,22 @@
 class Api::ProductsController < ApplicationController
+  before_action :authenticate_admin, only: [:create, :destroy, :update]
+
   def index
-    user_input = params[:search]
-    search_type = params[:search_type]
-    genre = params[:genre]
-    sort_by = params[:sort_by] || "id"
-    if params[:genre] != ""
-      genre = Genre.find_by(name: params[:genre])
-      @products = genre.products
-    else
-      if user_input
-        @products = Product.where("#{search_type} LIKE ?", "%#{user_input}%").order("#{sort_by}")
-      else
-        @products = Product.all.order("#{sort_by}")
-      end
-    end
+    @products = Product.all # for axios request
+    # user_input = params[:search]
+    # search_type = params[:search_type]
+    # genre = params[:genre]
+    # sort_by = params[:sort_by] || "id"
+    # if params[:genre] != ""
+    #   genre = Genre.find_by(name: params[:genre])
+    #   @products = genre.products
+    # else
+    #   if user_input
+    #     @products = Product.where("#{search_type} LIKE ?", "%#{user_input}%").order("#{sort_by}")
+    #   else
+    #     @products = Product.all.order("#{sort_by}")
+    #   end
+    # end
     render "index.json.jbuilder"
   end
 

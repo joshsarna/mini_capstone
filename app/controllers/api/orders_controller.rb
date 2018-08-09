@@ -1,4 +1,6 @@
 class Api::OrdersController < ApplicationController
+  # before_action :user_authenticate, only: [:show, :create]
+
   def show
     @order = Order.find_by(id: params[:id])
     render "show.json.jbuilder"

@@ -21,7 +21,7 @@ class Api::CartedProductsController < ApplicationController
   end
 
   def destroy
-    @carted_product = CartedProduct.find(params[:product_id])
+    @carted_product = CartedProduct.find(params[:id])
     @carted_product.status = "removed"
     @carted_product.save
     render "index.json.jbuilder"
