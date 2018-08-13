@@ -207,8 +207,54 @@
 <template id="product">
   <div class="vue-component">
 
-    <h1>{{ message }}</h1>
-    <p>{{ product }}</p>
+    <h5 class="card-title">{{ product.title }}</h5>
+    <img v-bind:src="product.formatted.images[0].url">
+    <p class="card-text"><p>{{ product.author }}</p></p>
+    <p class="price">Price: ${{ product.price }} (plus tax)</p>
+    <p>{{ product.formatted.discount_message }}</p>
+    <p class="format">Format: {{ product.format }}</p>
+    <p class="condition">Condition: {{ product.condition }}</p>
+    <p>Quantity: <input v-model="quantity">
+    <button class="btn btn-primary" v-on:click="addToCart()">Add to Cart</button></p>
+    <a v-bind:href="'/#/products/' + product.id + '/edit'" class="btn btn-primary">Edit this Book</a> 
+
+  </div>
+</template>
+
+<template id="edit-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Make sure to save changes</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Title:</label> 
+        <input type="text" class="form-control" v-model="title">
+      </div>
+      <div class="form-group">
+        <label>Author:</label>
+        <input type="text" class="form-control" v-model="author">
+      </div>
+      <div class="form-group">
+        <label>Price:</label>
+        <input type="text" class="form-control" v-model="price">
+      </div>
+      <div class="form-group">
+        <label>Format:</label>
+        <input type="text" class="form-control" v-model="format">
+      </div>
+      <div class="form-group">
+        <label>Condition:</label> 
+        <input type="text" class="form-control" v-model="condition">
+      </div>
+      <div class="form-group">
+        <label>Supplier Id:</label> 
+        <input type="text" class="form-control" v-model="supplierId">
+      </div>
+      <button class="btn btn-primary" v-on:click="saveChanges()">Submit</button>
+    </div>
 
   </div>
 </template>

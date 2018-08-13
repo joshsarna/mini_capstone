@@ -1,10 +1,60 @@
 /* global Vue, VueRouter, axios */
+var EditPage = {
+  template: "#edit-page",
+  data: function() {
+    return {
+      title: "",
+      author: "",
+      price: "",
+      format: "",
+      condition: "",
+      supplierId: "",
+      errors: []
+    };
+  },
+  created: function() {
+    console.log(this.$route.params.id);
+    axios.get("/api/products/" + this.$route.params.id).then(function(response) {
+      console.log(response.data);
+      this.title = response.data.title;
+      this.author = response.data.author;
+      this.price = response.data.price;
+      this.format = response.data.format;
+      this.condition = response.data.condition;
+      this.supplierId = response.data.formatted.supplier.id;
+    }.bind(this));
+  },
+  methods: {
+    saveChanges: function() {
+      var params = {
+        input_name: this.title,
+        input_author: this.author,
+        input_price: this.price,
+        input_format: this.this,
+        input_condition: this.condition,
+        input_supplier_id: this.supplierId
+      };
+      axios
+        .patch("/api/products/" + this.$route.params.id, params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
 var Product = {
   template: "#product",
   data: function() {
     return {
       message: "Product",
-      product: {}
+      product: {},
+      quantity: 0
     };
   },
   created: function() {
@@ -15,11 +65,13 @@ var Product = {
     }.bind(this));
   },
   methods: {
-    purchase: function() {
-      console.log("purchasing?");
-      axios.post('/api/orders').then(function(response) {
-        console.log("purchased?");
-        console.log(response.data);
+    addToCart: function() {
+      var params = {
+        quantity: this.quantity,
+        product_id: this.product.id
+      };
+      axios.post("/api/carted_products", params).then(function(response) {
+        console.log("booyah, added to cart.");
         router.push("/cart");
       });
     }
@@ -213,13 +265,15 @@ var HomePage = {
 var router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
+    { path: "/products", component: HomePage },
     { path: "/cart", component: Cart },
     { path: "/signup", component: SignupPage },
     { path: "/login", component: LoginPage },
     { path: "/logout", component: LogoutPage },
     { path: "/new", component: NewProduct },
     { path: "/orders", component: Orders },
-    { path: "/products/:id", component: Product}
+    { path: "/products/:id", component: Product },
+    { path: "/products/:id/edit", component: EditPage }
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
