@@ -70,7 +70,8 @@ class Api::ProductsController < ApplicationController
       description: params[:input_description] || @product.description,
       format: params[:input_format] || @product.format,
       condition: params[:input_condition] || @product.condition,
-      image_url: params[:input_image_url] || @product.image_url
+      image_url: params[:input_image_url] || @product.image_url,
+      supplier_id: params[:input_supplier_id] || @product.supplier_id
     )
 
       # if update_parameter == "name"
