@@ -1,10 +1,176 @@
 /* global Vue, VueRouter, axios */
+var Product = {
+  template: "#product",
+  data: function() {
+    return {
+      message: "Product",
+      product: {}
+    };
+  },
+  created: function() {
+    console.log(this.$route.params.id);
+    axios.get("/api/products/" + this.$route.params.id).then(function(response) {
+      console.log(response.data);
+      this.product = response.data;
+    }.bind(this));
+  },
+  methods: {
+    purchase: function() {
+      console.log("purchasing?");
+      axios.post('/api/orders').then(function(response) {
+        console.log("purchased?");
+        console.log(response.data);
+        router.push("/cart");
+      });
+    }
+  },
+  computed: {}
+};
+
+var Orders = {
+  template: "#orders",
+  data: function() {
+    return {
+      message: "Orders",
+      orders: []
+    };
+  },
+  created: function() {
+    axios.get('/api/orders').then(function(response) {
+      this.orders = response.data;
+      console.log(response.data);
+    }.bind(this));
+  },
+  methods: {
+    purchase: function() {
+      console.log("purchasing?");
+      axios.post('/api/orders').then(function(response) {
+        console.log("purchased?");
+        console.log(response.data);
+        router.push("/cart");
+      });
+    }
+  },
+  computed: {}
+};
+
+var NewProduct = {
+  template: "#new-page",
+  data: function() {
+    return {
+      title: "",
+      author: "",
+      price: "",
+      format: "",
+      condition: "",
+      supplierId: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        input_name: this.title,
+        input_author: this.author,
+        input_price: this.price,
+        input_format: this.this,
+        input_condition: this.condition,
+        input_supplier_id: this.supplierId
+      };
+      axios
+        .post("/api/products", params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LogoutPage = {
+  template: "<h1>Logout</h1>",
+  created: function() {
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/");
+  }
+};
+
+var LoginPage = {
+  template: "#login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        email: this.email, password: this.password
+      };
+      axios
+        .post("/api/sessions", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/api/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
 
 var Cart = {
   template: "#cart",
   data: function() {
     return {
-      message: "Care to donate?",
+      message: "No One Ever Said Anything Bad about Impulse Buys",
       cartedProducts: []
     };
   },
@@ -13,7 +179,16 @@ var Cart = {
       this.cartedProducts = response.data;
     }.bind(this));
   },
-  methods: {},
+  methods: {
+    purchase: function() {
+      console.log("purchasing?");
+      axios.post('/api/orders').then(function(response) {
+        console.log("purchased?");
+        console.log(response.data);
+        router.push("/cart");
+      });
+    }
+  },
   computed: {}
 };
 
@@ -38,7 +213,13 @@ var HomePage = {
 var router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
-    { path: "/cart", component: Cart }
+    { path: "/cart", component: Cart },
+    { path: "/signup", component: SignupPage },
+    { path: "/login", component: LoginPage },
+    { path: "/logout", component: LogoutPage },
+    { path: "/new", component: NewProduct },
+    { path: "/orders", component: Orders },
+    { path: "/products/:id", component: Product}
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
@@ -47,5 +228,11 @@ var router = new VueRouter({
 
 var app = new Vue({
   el: "#vue-app",
-  router: router
+  router: router,
+  created: function() {
+    var jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      axios.defaults.headers.common["Authorization"] = jwt;
+    }
+  }
 });

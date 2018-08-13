@@ -1,6 +1,11 @@
 class Api::OrdersController < ApplicationController
   # before_action :user_authenticate, only: [:show, :create]
 
+  def index
+    @orders = Order.where(user_id: current_user.id)
+    render "index.json.jbuilder"
+  end
+
   def show
     @order = Order.find_by(id: params[:id])
     render "show.json.jbuilder"
