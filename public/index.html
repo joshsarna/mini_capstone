@@ -7,6 +7,7 @@
   <title>My App</title>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/vue2-filters/dist/vue2-filters.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
@@ -66,7 +67,8 @@
 <template id="home-page">
   <div class="vue-component">
     <div class="col-sm-6">
-      <div v-for="product in products">
+      Search for a Book: <input v-model="filterSearch">
+      <div v-for="product in filterBy(products, filterSearch, 'title', 'author')">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ product.title }}</h5>
