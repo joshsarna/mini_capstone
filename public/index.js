@@ -250,7 +250,9 @@ var HomePage = {
     return {
       message: "Welcome to Vue.js!",
       products: [],
-      filterSearch: ""
+      filterSearch: "",
+      orderAttribute: "title",
+      sortAsc: 1
     };
   },
   created: function() {
@@ -259,7 +261,15 @@ var HomePage = {
       console.log(response.data);
     }.bind(this));
   },
-  methods: {},
+  methods: {
+    sortBy: function(attribute) {
+      if (this.orderAttribute !== attribute) {
+        this.orderAttribute = attribute;
+      } else {
+        this.sortAsc *= -1;
+      }
+    }
+  },
   computed: {}
 };
 

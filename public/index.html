@@ -68,7 +68,12 @@
   <div class="vue-component">
     <div class="col-sm-6">
       Search for a Book: <input v-model="filterSearch">
-      <div v-for="product in filterBy(products, filterSearch, 'title', 'author')">
+      <p>
+        <button v-on:click="sortBy('title')">Sort by Title</button>
+        <button v-on:click="sortBy('author')">Sort by Author</button>
+      </p>
+      <div v-for="product in orderBy(products, orderAttribute, sortAsc)">
+      <!-- <div v-for="product in filterBy(products, filterSearch, 'title', 'author')"> -->
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ product.title }}</h5>
