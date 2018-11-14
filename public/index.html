@@ -9,6 +9,7 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/vue2-filters/dist/vue2-filters.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
   <div class="container">
@@ -67,25 +68,32 @@
 <template id="home-page">
   <div class="vue-component">
     <div class="col-sm-6">
-      Search for a Book: <input v-model="filterSearch">
+      Search for a Book: <input v-model="filterSearch" list="searchTerms">
+
+      <datalist id="searchTerms">
+        <option v-for="product in products">{{ product.title }}</option>
+        <option v-for="product in products">{{ product.author }}</option>
+      </datalist>
       <p>
-        <button v-on:click="sortBy('title')">Sort by Title</button>
-        <button v-on:click="sortBy('author')">Sort by Author</button>
+        <button v-on:click="sortBy('title')">Sort by Title {{ sortIconTitle }}</button>
+        <button v-on:click="sortBy('author')">Sort by Author {{ sortIconAuthor }}</button>
       </p>
-      <div v-for="product in orderBy(products, orderAttribute, sortAsc)">
-      <!-- <div v-for="product in filterBy(products, filterSearch, 'title', 'author')"> -->
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ product.title }}</h5>
-            <img v-bind:src="product.formatted.images[0].url">
-            <p class="card-text"><p>{{ product.author }}</p></p>
-            <p class="price">Price: ${{ product.price }}</p>
-            <p class="format">Format: {{ product.format }}</p>
-            <p class="condition">Condition: {{ product.condition }}</p>
-            <a v-bind:href="'/#/products/' + product.id" class="btn btn-primary">View Book</a>
+      <transition-group name="slide-left">
+        <div v-for="product in orderBy(filterBy(products, filterSearch, 'title', 'author'), orderAttribute, sortAsc)" v-bind:key="product.id">
+        <!-- <div v-for="product in filterBy(products, filterSearch, 'title', 'author')"> -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <img v-bind:src="product.formatted.images[0].url">
+              <p class="card-text"><p>{{ product.author }}</p></p>
+              <p class="price">Price: ${{ product.price }}</p>
+              <p class="format">Format: {{ product.format }}</p>
+              <p class="condition">Condition: {{ product.condition }}</p>
+              <a v-bind:href="'/#/products/' + product.id" class="btn btn-primary">View Book</a>
+            </div>
           </div>
         </div>
-      </div>
+      </transition-group>
     </div>
   </div>
 </template>

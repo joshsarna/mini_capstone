@@ -1,3 +1,14 @@
 img {
-  width: 300px;
+  width: 250px;
+}
+
+.slide-left-enter-active {
+  transition: all 0.8s ease;
+}
+.slide-left-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-left-enter, .slide-left-leave-to {
+  transform: translateX(-10px);
+  opacity: 0;
 }

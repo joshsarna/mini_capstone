@@ -252,7 +252,9 @@ var HomePage = {
       products: [],
       filterSearch: "",
       orderAttribute: "title",
-      sortAsc: 1
+      sortAsc: 1,
+      sortIconTitle: "",
+      sortIconAuthor: ""
     };
   },
   created: function() {
@@ -265,8 +267,27 @@ var HomePage = {
     sortBy: function(attribute) {
       if (this.orderAttribute !== attribute) {
         this.orderAttribute = attribute;
+        this.sortAsc = 1;
+        if (this.sortIconAuthor === "") {
+          this.sortIconAuthor = "^";
+          this.sortIconTitle = "";
+        } else if (this.sortIconTitle === "") {
+          this.sortIconTitle = "^";
+          this.sortIconAuthor = "";
+        }
       } else {
         this.sortAsc *= -1;
+        if (this.sortIconAuthor === "v") {
+          this.sortIconAuthor = "^";
+        } else if (this.sortIconAuthor === "^") {
+          this.sortIconAuthor = "v";
+        } else if (this.sortIconTitle === "v") {
+          this.sortIconTitle = "^";
+        } else if (this.sortIconTitle === "^") {
+          this.sortIconTitle = "v";
+        } else if (this.sortIconTitle === "") {
+          this.sortIconTitle = "v";
+        }
       }
     }
   },
