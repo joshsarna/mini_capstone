@@ -173,6 +173,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionview (>= 5.2.2.1)
+  activejob (>= 5.2.1.1)
+  activestorage (>= 5.2.1.1)
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug
@@ -186,6 +189,7 @@ DEPENDENCIES
   rack (>= 2.0.6)
   rack-cors
   rails (~> 5.2.0)
+  railties (>= 5.2.2.1)
   rest-client (>= 1.8.0)
   sass-rails (~> 5.0)
   tzinfo-data
